@@ -1,10 +1,12 @@
 # Disentangle VAE
 
-## 潜在変数の分離
-各Zの値を-3.0~3.0動かしてた時の結果。
+Replicating DeepMind's paper "Early Visual Concept Learning with Unsupervised Deep Learning"
+https://arxiv.org/pdf/1606.05579.pdf
 
-variances = [ 0.0010782   0.99016315  0.00433249  0.91752625  0.95028102  0.99452293  0.00970352  0.91469181  0.92706805  0.95241702]
+## 2D shape disentaglement
 
+Result by changing latent Z from -3.0 to 3.0 with β=4.0
+Disentaglment is not clear but latent variables with small variance Z0, Z2, Z6 seem retrieving x, y rotation.
 
 z0:
 ![](disentangle_img/check_z0_0.png)
@@ -17,6 +19,7 @@ z0:
 ![](disentangle_img/check_z0_7.png)
 ![](disentangle_img/check_z0_8.png)
 ![](disentangle_img/check_z0_9.png)
+0.001
 
 z1:
 ![](disentangle_img/check_z1_0.png)
@@ -29,6 +32,7 @@ z1:
 ![](disentangle_img/check_z1_7.png)
 ![](disentangle_img/check_z1_8.png)
 ![](disentangle_img/check_z1_9.png)
+0.990
 
 z2:
 ![](disentangle_img/check_z2_0.png)
@@ -41,6 +45,7 @@ z2:
 ![](disentangle_img/check_z2_7.png)
 ![](disentangle_img/check_z2_8.png)
 ![](disentangle_img/check_z2_9.png)
+0.004
 
 z3:
 ![](disentangle_img/check_z3_0.png)
@@ -53,6 +58,7 @@ z3:
 ![](disentangle_img/check_z3_7.png)
 ![](disentangle_img/check_z3_8.png)
 ![](disentangle_img/check_z3_9.png)
+0.918
 
 z4:
 ![](disentangle_img/check_z4_0.png)
@@ -65,6 +71,7 @@ z4:
 ![](disentangle_img/check_z4_7.png)
 ![](disentangle_img/check_z4_8.png)
 ![](disentangle_img/check_z4_9.png)
+0.9503
 
 z5:
 ![](disentangle_img/check_z5_0.png)
@@ -77,6 +84,7 @@ z5:
 ![](disentangle_img/check_z5_7.png)
 ![](disentangle_img/check_z5_8.png)
 ![](disentangle_img/check_z5_9.png)
+0.9945
 
 z6:
 ![](disentangle_img/check_z6_0.png)
@@ -89,6 +97,7 @@ z6:
 ![](disentangle_img/check_z6_7.png)
 ![](disentangle_img/check_z6_8.png)
 ![](disentangle_img/check_z6_9.png)
+0.0097 
 
 z7:
 ![](disentangle_img/check_z7_0.png)
@@ -101,6 +110,7 @@ z7:
 ![](disentangle_img/check_z7_7.png)
 ![](disentangle_img/check_z7_8.png)
 ![](disentangle_img/check_z7_9.png)
+0.9147
 
 z8:
 ![](disentangle_img/check_z8_0.png)
@@ -113,6 +123,7 @@ z8:
 ![](disentangle_img/check_z8_7.png)
 ![](disentangle_img/check_z8_8.png)
 ![](disentangle_img/check_z8_9.png)
+0.9271 
 
 z9:
 ![](disentangle_img/check_z9_0.png)
@@ -125,11 +136,12 @@ z9:
 ![](disentangle_img/check_z9_7.png)
 ![](disentangle_img/check_z9_8.png)
 ![](disentangle_img/check_z9_9.png)
+0.9524
 
 
-## Reconstructの内容
+## Reconstruction result
 
-左が元画像で、右がreconstructした画像。
+Left: original Right: reconstructed image
 
 ![](reconstr_img/org_0.png)
 ![](reconstr_img/reconstr_0.png)
