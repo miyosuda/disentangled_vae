@@ -1,4 +1,4 @@
-# Disentangle VAE
+# Disentangled VAE
 
 Replicating DeepMind's paper "Early Visual Concept Learning with Unsupervised Deep Learning"
 https://arxiv.org/pdf/1606.05579.pdf
