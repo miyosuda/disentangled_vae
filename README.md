@@ -6,7 +6,8 @@ https://arxiv.org/pdf/1606.05579.pdf
 ## 2D shape disentaglement
 
 Result by changing latent Z from -3.0 to 3.0 with β=4.0
-Disentaglment is not clear but latent variables with small variance Z0, Z2, Z6 seem retrieving x, y rotation.
+
+Disentaglment is obscure but latent variables with small variance Z0, Z2, Z6 seem extracting "x", "y" and "rotation" parameters. (Though they are still entalgled a bit.)
 
 z0:
 ![](disentangle_img/check_z0_0.png)
