@@ -7,9 +7,11 @@ https://arxiv.org/pdf/1606.05579.pdf
 
 Result by changing latent Z from -3.0 to 3.0 with β=4.0
 
-Disentaglment is obscure but latent variables with small variance Z0, Z2, Z6 seem extracting "x", "y" and "rotation" parameters. (Though they are still entalgled a bit.)
+Disentaglment is obscure but latent variables with small variance "Z0", "Z2", "Z6" seem extracting "x", "y" and "rotation" parameters. (Though they are still entalgled a bit.)
 
-z0:
+Other latent variables are all drawin into N(0,I), so variances are round 1.0.
+
+**z0**:
 ![](disentangle_img/check_z0_0.png)
 ![](disentangle_img/check_z0_1.png)
 ![](disentangle_img/check_z0_2.png)
@@ -20,7 +22,7 @@ z0:
 ![](disentangle_img/check_z0_7.png)
 ![](disentangle_img/check_z0_8.png)
 ![](disentangle_img/check_z0_9.png)
-0.001
+**0.001**
 
 z1:
 ![](disentangle_img/check_z1_0.png)
@@ -35,7 +37,7 @@ z1:
 ![](disentangle_img/check_z1_9.png)
 0.990
 
-z2:
+**z2**:
 ![](disentangle_img/check_z2_0.png)
 ![](disentangle_img/check_z2_1.png)
 ![](disentangle_img/check_z2_2.png)
@@ -46,7 +48,7 @@ z2:
 ![](disentangle_img/check_z2_7.png)
 ![](disentangle_img/check_z2_8.png)
 ![](disentangle_img/check_z2_9.png)
-0.004
+**0.004**
 
 z3:
 ![](disentangle_img/check_z3_0.png)
@@ -87,7 +89,7 @@ z5:
 ![](disentangle_img/check_z5_9.png)
 0.9945
 
-z6:
+**z6**:
 ![](disentangle_img/check_z6_0.png)
 ![](disentangle_img/check_z6_1.png)
 ![](disentangle_img/check_z6_2.png)
@@ -98,7 +100,7 @@ z6:
 ![](disentangle_img/check_z6_7.png)
 ![](disentangle_img/check_z6_8.png)
 ![](disentangle_img/check_z6_9.png)
-0.0097 
+**0.0097**
 
 z7:
 ![](disentangle_img/check_z7_0.png)
