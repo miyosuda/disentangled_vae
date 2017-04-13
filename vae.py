@@ -81,7 +81,7 @@ def get_batch_images(shapes, batch_size, pos):
   for i in range(batch_size):
     shape = shapes[pos+i]
     x = shape.x
-    y = shape.x
+    y = shape.y
     scale = shape.scale
     rotate = shape.rotate
     img = generate_image(64, 64, x, y, scale, rotate)
@@ -142,7 +142,7 @@ class VariationalAutoencoder(object):
     self._create_loss_optimizer()
     
     # Initializing the tensor flow variables
-    init = tf.initialize_all_variables()
+    init = tf.global_variables_initializer()
     
     # Launch the session
     self.sess = tf.InteractiveSession()
@@ -168,14 +168,14 @@ class VariationalAutoencoder(object):
     # バッチサイズを得る
     batch_sz = tf.shape(self.x)[0]
     # randomのshapeを動的に作る
-    eps_shape = tf.pack([batch_sz, n_z])
+    eps_shape = tf.stack([batch_sz, n_z])
     
     #eps = tf.random_normal( (self.batch_size, n_z), 0, 1, dtype=tf.float32 )
     eps = tf.random_normal( eps_shape, 0, 1, dtype=tf.float32 )
     
     # z = mu + sigma * epsilon
     self.z = tf.add(self.z_mean, 
-                    tf.mul(tf.sqrt(tf.exp(self.z_log_sigma_sq)), eps))
+                    tf.multiply(tf.sqrt(tf.exp(self.z_log_sigma_sq)), eps))
 
     # Use generator to determine mean of
     # Bernoulli distribution of reconstructed input
