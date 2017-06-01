@@ -8,83 +8,44 @@ import tensorflow as tf
 import random
 import os
 from scipy.misc import imsave
-from PIL import Image, ImageDraw
 
 CHECKPOINT_DIR = 'checkpoints'
-n_samples = 32 * 32 * 6 * 40
-learning_rate = 5e-4
+learning_rate = 1e-2
 batch_size = 64
 epoch_size = 100
 
-#np.random.seed(0)
-#tf.set_random_seed(0)
+# Load dataset
+dataset_zip = np.load('data/dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz')
 
-class Shape(object):
-  def __init__(self, x, y, scale, rotate):
-    self.x = x
-    self.y = y
-    self.scale = scale
-    self.rotate = rotate
+# print('Keys in the dataset:', dataset_zip.keys())
+#  ['metadata', 'imgs', 'latents_classes', 'latents_values']
 
-    
-def generate_image(image_w, image_h, x, y, scale, rotate):
-  # 8bitで画像生成
-  im = Image.new("L", (image_w, image_h))
-
-  # 縦長の楕円を中心に描画
-  ex = image_w * scale
-  ey = image_h * scale * 2.0
-
-  # bounding box
-  bbox =  (image_w/2 - ex/2,
-             image_h/2 - ey/2,
-             image_w/2 + ex/2,
-             image_h/2 + ey/2)
-  draw = ImageDraw.Draw(im)
-  draw.ellipse(bbox, fill=255)
-    
-  # 回転
-  im = im.rotate(360 * rotate)
-
-  # 移動
-  dx = (-x + 0.5) * image_w
-  dy = (-y + 0.5) * image_h
-  im = im.transform(im.size, Image.AFFINE, (1,0,dx,0,1,dy), Image.BILINEAR)
-  del draw
-  
-  #0~255値のndarrayに
-  im_arr = np.asarray(im)
-
-  #0.0~1.0のfloat値のndarrayに
-  im_arr = im_arr.astype(np.float32)
-  im_arr = np.multiply(im_arr, 1.0 / 255.0)
-
-  # reshape
-  im_arr = im_arr.reshape((4096))
-  return im_arr
+imgs            = dataset_zip['imgs']
+latents_values  = dataset_zip['latents_values']
+latents_classes = dataset_zip['latents_classes']
+metadata        = dataset_zip['metadata'][()]
 
 
-def prepare_shapes():
-  """ 学習用に全パターンの画像パラメータを用意する """
-  shapes = []
-  for x in np.linspace(0.2, 0.8, 32):
-    for y in np.linspace(0.2, 0.8, 32):
-      for scale in np.linspace(0.1, 0.2, 6):
-        for rotate in np.linspace(0.0, 1.0, 40):
-          shapes.append(Shape(x, y, scale, rotate))
-  return shapes
+# Define number of values per latents and functions to convert to indices
+latents_sizes = metadata['latents_sizes']
+# [ 1,  3,  6, 40, 32, 32]
+# color, shape, scale, orientation, posX, posY
+
+n_samples = latents_sizes[::-1].cumprod()[-1]
+# 737280
+
+latents_bases = np.concatenate((latents_sizes[::-1].cumprod()[::-1][1:],
+                                np.array([1,])))
+# [737280, 245760, 40960, 1024, 32, 1]
 
 
-def get_batch_images(shapes, batch_size, pos):
+def get_batch_images(indices, batch_size, pos):
   """ 学習用の画像バッチを生成 """
   batch = []
   for i in range(batch_size):
-    shape = shapes[pos+i]
-    x = shape.x
-    y = shape.y
-    scale = shape.scale
-    rotate = shape.rotate
-    img = generate_image(64, 64, x, y, scale, rotate)
+    index = indices[pos+i]
+    img = imgs[index]
+    img = img.reshape(4096)
     batch.append(img)
   return batch
 
@@ -93,11 +54,9 @@ def get_random_images(size):
   """ 結果確認用にランダム画像を生成 """
   images = []
   for i in range(size):
-    x = np.random.uniform(0.2, 0.8)
-    y = np.random.uniform(0.2, 0.8)
-    scale = np.random.uniform(0.1, 0.2)
-    rotate = np.random.uniform(0.0, 1.0)
-    img = generate_image(64, 64, x, y, scale, rotate)
+    index = np.random.randint(n_samples)
+    img = imgs[index]
+    img = img.reshape(4096)
     images.append(img)
   return images
 
@@ -315,13 +274,13 @@ def train(vae,
           batch_size,
           training_epochs,
           display_step=1):
-  
-  shapes = prepare_shapes()
+
+  indices = range(n_samples)
   
   # Training cycle
   for epoch in range(training_epochs):
-    # input用shape配列をシャッフルしておく
-    random.shuffle(shapes)
+    # input用index配列をシャッフルしておく
+    random.shuffle(indices)
     
     avg_cost = 0.0
     total_batch = int(n_samples / batch_size)
@@ -329,11 +288,13 @@ def train(vae,
     # Loop over all batches
     for i in range(total_batch):
       # バッチを取得する.
-      batch_xs = get_batch_images(shapes, batch_size, batch_size * i)
+      batch_xs = get_batch_images(indices, batch_size, batch_size * i)
        # Fit training using batch data
       cost = vae.partial_fit(batch_xs)
       # Compute average loss
       avg_cost += cost / n_samples * batch_size
+
+      print(cost)#..
       
      # Display logs per epoch step
     if epoch % display_step == 0:
@@ -353,17 +314,15 @@ def reconstr_check(vae):
 
   for i in range(10):
     org_img      = x_sample[i].reshape(64, 64)
+    org_img = org_img.astype(np.float32) #..
     reconstr_img = x_reconstruct[i].reshape(64, 64)
     imsave("reconstr_img/org_{0}.png".format(i),      org_img)
     imsave("reconstr_img/reconstr_{0}.png".format(i), reconstr_img)
 
-    
+
 def disentangle_check(vae, n_z):
-  x = 0.2
-  y = 0.2
-  scale = 0.15
-  rotate = 0.2
-  img = generate_image(64, 64, x, y, scale, rotate)
+  img = imgs[0]
+  img = img.reshape(4096)
   batch_xs = [img]
   z_mean, z_log_sigma_sq = vae.transform(batch_xs)
   z_sigma_sq = np.exp(z_log_sigma_sq)[0]
@@ -383,6 +342,7 @@ def disentangle_check(vae, n_z):
       reconstr_img = vae.generate(z_mu=z_mean2)
       rimg = reconstr_img[0].reshape(64, 64)
       imsave("disentangle_img/check_z{0}_{1}.png".format(target_z_index,ri), rimg)
+      
 
 def load_checkpoints():
   saver = tf.train.Saver()
