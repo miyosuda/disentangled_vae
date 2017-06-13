@@ -1,0 +1,6 @@
+dependencies:
+  pre:
+    - pip install --upgrade pip
+    - pip install tensorflow
+    - pip install numpy	
+
