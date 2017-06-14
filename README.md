@@ -1,5 +1,7 @@
 # Disentangled VAE
 
+[![CircleCI](https://circleci.com/gh/miyosuda/disentangled_vae.svg?style=svg)](https://circleci.com/gh/miyosuda/disentangled_vae)
+
 Replicating DeepMind's paper "Early Visual Concept Learning with Unsupervised Deep Learning"
 https://arxiv.org/pdf/1606.05579.pdf
 
