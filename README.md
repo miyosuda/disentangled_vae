@@ -7,13 +7,14 @@ https://arxiv.org/pdf/1606.05579.pdf
 
 Result by changing latent Z from -3.0 to 3.0 with β=4.0
 
-Disentaglment is obscure but latent variables with small variance "Z0", "Z5, "Z6", "Z7", "Z8" seem extracting "x", "y", "rotation" and "scale" parameters. (Though they are still entalgled a bit.)
+Disentaglment is obscure but latent variables with small variance "Z2", "Z3, "Z5", "Z7", "Z8" seem extracting "x", "y", "rotation" and "scale" parameters.
 
 Other latent variables are all drawin into N(0,I), so variances are round 1.0.
 
 (This experiment is using DeepMind's [dsprite data set](https://github.com/deepmind/dsprites-dataset).)
 
-**z0**:
+
+z0:
 ![](disentangle_img/check_z0_0.png)
 ![](disentangle_img/check_z0_1.png)
 ![](disentangle_img/check_z0_2.png)
@@ -24,7 +25,7 @@ Other latent variables are all drawin into N(0,I), so variances are round 1.0.
 ![](disentangle_img/check_z0_7.png)
 ![](disentangle_img/check_z0_8.png)
 ![](disentangle_img/check_z0_9.png)
-**0.06**
+1.00
 
 z1:
 ![](disentangle_img/check_z1_0.png)
@@ -37,9 +38,9 @@ z1:
 ![](disentangle_img/check_z1_7.png)
 ![](disentangle_img/check_z1_8.png)
 ![](disentangle_img/check_z1_9.png)
-1.0
+1.00
 
-z2:
+**z2**:
 ![](disentangle_img/check_z2_0.png)
 ![](disentangle_img/check_z2_1.png)
 ![](disentangle_img/check_z2_2.png)
@@ -50,9 +51,9 @@ z2:
 ![](disentangle_img/check_z2_7.png)
 ![](disentangle_img/check_z2_8.png)
 ![](disentangle_img/check_z2_9.png)
-1.02
+**0.02**
 
-z3:
+**z3**:
 ![](disentangle_img/check_z3_0.png)
 ![](disentangle_img/check_z3_1.png)
 ![](disentangle_img/check_z3_2.png)
@@ -63,7 +64,7 @@ z3:
 ![](disentangle_img/check_z3_7.png)
 ![](disentangle_img/check_z3_8.png)
 ![](disentangle_img/check_z3_9.png)
-1.0
+**0.05**
 
 z4:
 ![](disentangle_img/check_z4_0.png)
@@ -76,7 +77,7 @@ z4:
 ![](disentangle_img/check_z4_7.png)
 ![](disentangle_img/check_z4_8.png)
 ![](disentangle_img/check_z4_9.png)
-1.0
+1.00
 
 **z5**:
 ![](disentangle_img/check_z5_0.png)
@@ -89,9 +90,9 @@ z4:
 ![](disentangle_img/check_z5_7.png)
 ![](disentangle_img/check_z5_8.png)
 ![](disentangle_img/check_z5_9.png)
-**0.05**
+**0.03**
 
-**z6**:
+z6:
 ![](disentangle_img/check_z6_0.png)
 ![](disentangle_img/check_z6_1.png)
 ![](disentangle_img/check_z6_2.png)
@@ -102,9 +103,9 @@ z4:
 ![](disentangle_img/check_z6_7.png)
 ![](disentangle_img/check_z6_8.png)
 ![](disentangle_img/check_z6_9.png)
-**0.0**
+1.00
 
-**z7**:
+z7:
 ![](disentangle_img/check_z7_0.png)
 ![](disentangle_img/check_z7_1.png)
 ![](disentangle_img/check_z7_2.png)
@@ -115,7 +116,7 @@ z4:
 ![](disentangle_img/check_z7_7.png)
 ![](disentangle_img/check_z7_8.png)
 ![](disentangle_img/check_z7_9.png)
-**0.03**
+0.01
 
 **z8**:
 ![](disentangle_img/check_z8_0.png)
@@ -128,7 +129,7 @@ z4:
 ![](disentangle_img/check_z8_7.png)
 ![](disentangle_img/check_z8_8.png)
 ![](disentangle_img/check_z8_9.png)
-**0.01**
+**0.02**
 
 z9:
 ![](disentangle_img/check_z9_0.png)
@@ -141,7 +142,7 @@ z9:
 ![](disentangle_img/check_z9_7.png)
 ![](disentangle_img/check_z9_8.png)
 ![](disentangle_img/check_z9_9.png)
-1.0
+0.99
 
 
 ## Reconstruction result
