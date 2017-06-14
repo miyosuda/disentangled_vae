@@ -97,16 +97,24 @@ def reconstruct_check(sess, model, images):
     imsave("reconstr_img/reconstr_{0}.png".format(i), reconstr_img)
 
 
-def disentangle_check(sess, model, manager):
+def disentangle_check(sess, model, manager, save_original=False):
   img = manager.get_image(shape=1, scale=2, orientation=5)
-  #imsave("original.png", img.reshape(64, 64).astype(np.float32))
+  if save_original:
+    imsave("original.png", img.reshape(64, 64).astype(np.float32))
+    
   batch_xs = [img]
   z_mean, z_log_sigma_sq = model.transform(sess, batch_xs)
   z_sigma_sq = np.exp(z_log_sigma_sq)[0]
 
-  print(z_sigma_sq)
-  z_m = z_mean[0]
+  # Print variance
+  zss_str = ""
+  for i,zss in enumerate(z_sigma_sq):
+    str = "z{0}={1:.2f}".format(i,zss)
+    zss_str += str + ", "
+  print(zss_str)
 
+  # Save disentangled images
+  z_m = z_mean[0]
   n_z = 10
 
   if not os.path.exists("disentangle_img"):

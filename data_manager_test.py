@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import unittest
 import numpy as np
+import gc
 
 from data_manager import DataManager
 
@@ -13,6 +14,10 @@ class DataManagerTest(unittest.TestCase):
   def setUp(self):
     self.manager = DataManager()
     self.manager.load()
+
+  def tearDown(self):
+    del self.manager
+    gc.collect()
   
   def test_load(self):
     # sample size should be 737280
