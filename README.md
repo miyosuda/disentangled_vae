@@ -11,6 +11,7 @@ Disentaglment is obscure but latent variables with small variance "Z0", "Z5, "Z6
 
 Other latent variables are all drawin into N(0,I), so variances are round 1.0.
 
+(This experiment is using DeepMind's [dsprite data set](https://github.com/deepmind/dsprites-dataset).)
 
 **z0**:
 ![](disentangle_img/check_z0_0.png)
