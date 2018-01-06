@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/miyosuda/disentangled_vae.svg?style=svg)](https://circleci.com/gh/miyosuda/disentangled_vae)
 
-Replicating DeepMind's papers [β-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework](https://openreview.net/forum?id=Sy2fzU9gl) and ["Understanding disentangling in β-VAE"] (https://drive.google.com/file/d/0Bwy4Nlx78QCCNktVTFFMTUs4N2oxY295VU9qV25MWTBQS2Uw/view)
+Replicating DeepMind's papers ["β-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework"](https://openreview.net/forum?id=Sy2fzU9gl) and ["Understanding disentangling in β-VAE"](https://drive.google.com/file/d/0Bwy4Nlx78QCCNktVTFFMTUs4N2oxY295VU9qV25MWTBQS2Uw/view)
 
 
 ## 2D shape disentaglement
