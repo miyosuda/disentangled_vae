@@ -9,37 +9,35 @@ import random
 import os
 from scipy.misc import imsave
 
-from vae import VariationalAutoencoder
+from model import VAE
 from data_manager import DataManager
 
-tf.app.flags.DEFINE_float("beta", 4.0, "beta parameter for latent loss")
 tf.app.flags.DEFINE_integer("epoch_size", 2000, "epoch size")
 tf.app.flags.DEFINE_integer("batch_size", 64, "batch size")
-tf.app.flags.DEFINE_float("learning_rate", 1e-2, "learning rate")
+tf.app.flags.DEFINE_float("gamma", 100.0, "gamma param for latent loss")
+tf.app.flags.DEFINE_float("capacity_limit", 25.0,
+                          "encoding capacity limit param for latent loss")
+tf.app.flags.DEFINE_integer("capacity_change_duration", 100000,
+                            "encoding capacity change duration")
+tf.app.flags.DEFINE_float("learning_rate", 5e-4, "learning rate")
 tf.app.flags.DEFINE_string("checkpoint_dir", "checkpoints", "checkpoint directory")
 tf.app.flags.DEFINE_string("log_file", "./log", "log file directory")
 tf.app.flags.DEFINE_boolean("training", True, "training or not")
 
 flags = tf.app.flags.FLAGS
 
-SUMMARY_INTERVAL = 100
-
 def train(sess,
           model,
           manager,
-          saver,
-          display_step=1):
+          saver):
 
-  tf.summary.scalar("loss", model.loss)
-  summary_op = tf.summary.merge_all()
-  summary_writer = tf.summary.FileWriter(flags.log_file,
-                                         sess.graph)
-
+  summary_writer = tf.summary.FileWriter(flags.log_file, sess.graph)
+  
   n_samples = manager.sample_size
 
   reconstruct_check_images = manager.get_random_images(10)
 
-  indices = range(n_samples)
+  indices = list(range(n_samples))
 
   step = 0
   
@@ -58,19 +56,9 @@ def train(sess,
       batch_xs = manager.get_images(batch_indices)
       
       # Fit training using batch data
-      if step % SUMMARY_INTERVAL == SUMMARY_INTERVAL-1:
-        cost, summary_str = model.partial_fit(sess, batch_xs, summary_op)
-        summary_writer.add_summary(summary_str, step)
-      else:
-        cost = model.partial_fit(sess, batch_xs)
-
-      # Compute average loss
-      avg_cost += cost / n_samples * flags.batch_size
+      reconstr_loss, latent_loss, summary_str = model.partial_fit(sess, batch_xs, step)
+      summary_writer.add_summary(summary_str, step)
       step += 1
-
-     # Display logs per epoch step
-    if epoch % display_step == 0:
-      print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
     # Image reconstruction check
     reconstruct_check(sess, model, reconstruct_check_images)
@@ -79,7 +67,7 @@ def train(sess,
     disentangle_check(sess, model, manager)
 
     # Save checkpoint
-    saver.save(sess, flags.checkpoint_dir + '/' + 'checkpoint', global_step = epoch)
+    saver.save(sess, flags.checkpoint_dir + '/' + 'checkpoint', global_step = step)
 
     
 def reconstruct_check(sess, model, images):
@@ -109,7 +97,7 @@ def disentangle_check(sess, model, manager, save_original=False):
   # Print variance
   zss_str = ""
   for i,zss in enumerate(z_sigma_sq):
-    str = "z{0}={1:.2f}".format(i,zss)
+    str = "z{0}={1:.4f}".format(i,zss)
     zss_str += str + ", "
   print(zss_str)
 
@@ -129,7 +117,7 @@ def disentangle_check(sess, model, manager, save_original=False):
           z_mean2[0][i] = value
         else:
           z_mean2[0][i] = z_m[i]
-      reconstr_img = model.generate(sess, z_mu=z_mean2)
+      reconstr_img = model.generate(sess, z_mean2)
       rimg = reconstr_img[0].reshape(64, 64)
       imsave("disentangle_img/check_z{0}_{1}.png".format(target_z_index,ri), rimg)
       
@@ -153,8 +141,10 @@ def main(argv):
 
   sess = tf.Session()
   
-  model = VariationalAutoencoder(learning_rate=flags.learning_rate,
-                                 beta=flags.beta)
+  model = VAE(gamma=flags.gamma,
+              capacity_limit=flags.capacity_limit,
+              capacity_change_duration=flags.capacity_change_duration,
+              learning_rate=flags.learning_rate)
   
   sess.run(tf.global_variables_initializer())
 

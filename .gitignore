@@ -1,3 +1,5 @@
 checkpoints*/*
-log/*
 *.pyc
+log/*
+disentangle_img
+

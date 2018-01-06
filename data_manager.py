@@ -8,7 +8,8 @@ import numpy as np
 class DataManager(object):
   def load(self):
     # Load dataset
-    dataset_zip = np.load('data/dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz')
+    dataset_zip = np.load('data/dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz',
+                          encoding = 'latin1')
 
     # print('Keys in the dataset:', dataset_zip.keys())
     #  ['metadata', 'imgs', 'latents_classes', 'latents_values']
