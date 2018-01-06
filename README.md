@@ -7,7 +7,7 @@ Replicating DeepMind's papers ["β-VAE: Learning Basic Visual Concepts with a Co
 
 ## 2D shape disentaglement
 
-Result by changing latent Z from -3.0 to 3.0 with γ=100.0 and C=25.0
+Result by changing latent Z from -3.0 to 3.0 with γ=100.0 and C=20.0
 
 Latent variables with small variances seem extracting "x", "y", "rotation" and "scale" parameters.
 
@@ -16,16 +16,16 @@ Latent variables with small variances seem extracting "x", "y", "rotation" and "
 
 Z  | Image                             | Parameter | Variance
 ---| ----------------------------------|---------- |-------
-z0 | ![](disentangle_anim/anim_z0.gif) | Rotation  | 0.0003
-z1 | ![](disentangle_anim/anim_z1.gif) |           | 1.1043
-z2 | ![](disentangle_anim/anim_z2.gif) | Scale?    | 0.0001
-z3 | ![](disentangle_anim/anim_z3.gif) |           | 0.8985
-z4 | ![](disentangle_anim/anim_z4.gif) |           | 1.4446
-z5 | ![](disentangle_anim/anim_z5.gif) | Rotation? | 0.0006
-z6 | ![](disentangle_anim/anim_z6.gif) |           | 0.9387
-z7 | ![](disentangle_anim/anim_z7.gif) | Pos Y     | 0.0000
-z8 | ![](disentangle_anim/anim_z8.gif) | Pos X     | 0.0000
-z9 | ![](disentangle_anim/anim_z9.gif) |           | 1.1738
+z0 | ![](disentangle_anim/anim_z0.gif) |           | 0.9216
+z1 | ![](disentangle_anim/anim_z1.gif) |           | 0.9216
+z2 | ![](disentangle_anim/anim_z2.gif) | Rotation  | 0.0011
+z3 | ![](disentangle_anim/anim_z3.gif) | Rotation? | 0.0038
+z4 | ![](disentangle_anim/anim_z4.gif) | Pos X     | 0.0002
+z5 | ![](disentangle_anim/anim_z5.gif) |           | 0.9384
+z6 | ![](disentangle_anim/anim_z6.gif) | Scale?    | 0.0004
+z7 | ![](disentangle_anim/anim_z7.gif) |           | 0.8991
+z8 | ![](disentangle_anim/anim_z8.gif) |           | 0.9483
+z9 | ![](disentangle_anim/anim_z9.gif) | Pos Y     | 0.0004
 
 
 ## Reconstruction result
