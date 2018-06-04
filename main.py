@@ -9,7 +9,7 @@ import random
 import os
 from scipy.misc import imsave
 
-from model import VAE
+from model import BVAE
 from data_manager import DataManager
 
 tf.app.flags.DEFINE_integer("epoch_size", 2000, "epoch size")
@@ -26,13 +26,14 @@ tf.app.flags.DEFINE_boolean("training", True, "training or not")
 
 flags = tf.app.flags.FLAGS
 
-def train(sess,
-          model,
-          manager,
-          saver):
+def train( sess,
+           model,
+           manager,
+           saver):
 
   summary_writer = tf.summary.FileWriter(flags.log_file, sess.graph)
-  
+  print("guardando grafo en " + flags.log_file)
+
   n_samples = manager.sample_size
 
   reconstruct_check_images = manager.get_random_images(10)
@@ -141,7 +142,7 @@ def main(argv):
 
   sess = tf.Session()
   
-  model = VAE(gamma=flags.gamma,
+  model = BVAE(gamma=flags.gamma,
               capacity_limit=flags.capacity_limit,
               capacity_change_duration=flags.capacity_change_duration,
               learning_rate=flags.learning_rate)
